@@ -30,7 +30,19 @@ def find_smallest_positive(xs):
     >>> find_smallest_positive([-3, -2, -1]) is None
     True
     '''
+    low = 0
+    high = len(xs) - 1
 
+    while low <= high:
+        mid = (low + high) // 2
+        if xs[mid] <= 0:
+            low = mid + 1
+        else:
+            high = mid - 1
+
+    if low < len(xs):
+        return low
+    return None
 
 def find_largest_negative(xs, lo=0, hi=None):
     '''
