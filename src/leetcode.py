@@ -62,6 +62,19 @@ def find_largest_negative(xs, lo=0, hi=None):
     >>> find_largest_negative([-3, -2, -1])
     2
     '''
+    low = 0
+    high = len(xs) - 1
+
+    while low <= high:
+        mid = (low + high) // 2
+        if xs[mid] < 0:
+            low = mid + 1
+        else:
+            high = mid - 1
+
+    if high > 0:
+        return high
+    return None
 
 
 def find_smallest(xs, lo=0, hi=None):
@@ -85,7 +98,19 @@ def find_smallest(xs, lo=0, hi=None):
     >>> find_smallest([]) is None
     True
     '''
+    low = 0
+    high = len(xs) - 1
 
+    while low <= high:
+        mid = (low + high) // 2
+        if xs[mid] <= 0:
+            low = mid + 1
+        else:
+            high = mid - 1
+
+    if low < len(xs):
+        return low
+    return None
 
 def count_repeats(xs, x):
     '''
