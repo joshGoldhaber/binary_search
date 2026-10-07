@@ -109,9 +109,19 @@ def bounded_argmin(f, lo, hi, epsilon=1e-3):
         the base of the log and the (hi-lo) factor drop out,
         giving us k = O(log 1/epsilon).
     '''
+    if hi - lo < epsilon:
+        return (lo + hi) / 2
+
+    m1 = lo + (hi - lo) / 3
+    m2 = hi - (hi - lo) / 3
+
+    if f(m1) < f(m2):
+        return bounded_argmin(f, lo, m2, epsilon)
+    else:
+        return bounded_argmin(f, m1, hi, epsilon)
 
 
-def find_boundaries(f):
+def find_boundaries(f, lo=-1, hi=1):
     '''
     Returns a tuple (lo,hi).
     If f is a convex function, then the minimum is guaranteed to be between lo and hi.
@@ -127,3 +137,11 @@ def find_boundaries(f):
     else:
         you're done; return lo,hi
     '''
+    mid = (lo + hi) / 2
+
+    if f(lo) < f(mid):
+        return find_boundaries(f, lo * 2, hi)
+    elif f(hi) < f(mid):
+        return find_boundaries(f, lo, hi * 2)
+    else:
+        return lo, hi
